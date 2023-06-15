@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dukungan_demensia/pages/login_page.dart';
+import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const CaretakerPage(title: "Alarm"),
     );
   }
 }
