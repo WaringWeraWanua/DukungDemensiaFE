@@ -34,7 +34,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio = true;
       vibrate = true;
       showNotification = true;
-      assetAudio = 'assets/marimba.mp3';
+      assetAudio = "assets/marimba.mp3";
     } else {
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
@@ -83,7 +83,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio: loopAudio,
       vibrate: vibrate,
       notificationTitle: title.text,
-      notificationBody: 'Waktunya melakukan ($title.text)!' ,
+      notificationBody: 'Waktunya melakukan ' + title.text + '!',
       assetAudioPath: assetAudio,
       stopOnNotificationOpen: false,
     );
@@ -152,11 +152,14 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Nama Kegiatan',
+                'Kegiatan',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              TextFormField(
-                controller: title,
+              const SizedBox(width: 200),
+              Expanded(
+                child: TextFormField(
+                  controller: title,
+                ),
               ),
             ],
           ),
