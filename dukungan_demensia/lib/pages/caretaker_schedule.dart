@@ -6,14 +6,14 @@ import 'package:dukungan_demensia/pages/ring.dart';
 import 'package:dukungan_demensia/widgets/tile.dart';
 import 'package:flutter/material.dart';
 
-class ExampleAlarmHomeScreen extends StatefulWidget {
-  const ExampleAlarmHomeScreen({Key? key}) : super(key: key);
+class CaretakerAlarmScreen extends StatefulWidget {
+  const CaretakerAlarmScreen({Key? key}) : super(key: key);
 
   @override
-  State<ExampleAlarmHomeScreen> createState() => _ExampleAlarmHomeScreenState();
+  State<CaretakerAlarmScreen> createState() => _CaretakerAlarmScreenState();
 }
 
-class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
+class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
   late List<AlarmSettings> alarms;
 
   static StreamSubscription? subscription;
@@ -70,7 +70,7 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Package alarm example app')),
+      appBar: AppBar(title: const Text('Caretaker Screen')),
       body: SafeArea(
         child: alarms.isNotEmpty
             ? ListView.separated(
@@ -79,10 +79,11 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
                 itemBuilder: (context, index) {
                   return ExampleAlarmTile(
                     key: Key(alarms[index].id.toString()),
-                    title: TimeOfDay(
+                    time: TimeOfDay(
                       hour: alarms[index].dateTime.hour,
                       minute: alarms[index].dateTime.minute,
                     ).format(context),
+                    title: alarms[index].notificationTitle!,
                     onPressed: () => navigateToAlarmScreen(alarms[index]),
                     onDismissed: () {
                       Alarm.stop(alarms[index].id).then((_) => loadAlarms());
@@ -92,7 +93,7 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
               )
             : Center(
                 child: Text(
-                  "No alarms set",
+                  "Anda belum mengatur jadwal",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -102,19 +103,6 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FloatingActionButton(
-              onPressed: () {
-                final alarmSettings = AlarmSettings(
-                  id: 42,
-                  dateTime: DateTime.now(),
-                  assetAudioPath: 'assets/marimba.mp3',
-                );
-                Alarm.set(alarmSettings: alarmSettings);
-              },
-              backgroundColor: Colors.red,
-              heroTag: null,
-              child: const Text("RING NOW", textAlign: TextAlign.center),
-            ),
             FloatingActionButton(
               onPressed: () => navigateToAlarmScreen(null),
               child: const Icon(Icons.alarm_add_rounded, size: 33),

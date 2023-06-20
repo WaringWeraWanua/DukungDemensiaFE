@@ -19,6 +19,9 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   late bool vibrate;
   late bool showNotification;
   late String assetAudio;
+  //late String title;
+
+  late TextEditingController title = TextEditingController();
 
   @override
   void initState() {
@@ -79,8 +82,8 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       dateTime: dateTime,
       loopAudio: loopAudio,
       vibrate: vibrate,
-      notificationTitle: showNotification ? 'Alarm example' : null,
-      notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
+      notificationTitle: title.text,
+      notificationBody: 'Waktunya melakukan ($title.text)!' ,
       assetAudioPath: assetAudio,
       stopOnNotificationOpen: false,
     );
@@ -149,6 +152,18 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+                'Nama Kegiatan',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              TextFormField(
+                controller: title,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 'Loop alarm audio',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
@@ -168,19 +183,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               Switch(
                 value: vibrate,
                 onChanged: (value) => setState(() => vibrate = value),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Show notification',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: showNotification,
-                onChanged: (value) => setState(() => showNotification = value),
               ),
             ],
           ),

@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class ExampleAlarmTile extends StatelessWidget {
   final String title;
+  final String time;
+  final bool isClicked;
   final void Function() onPressed;
   final void Function()? onDismissed;
 
   const ExampleAlarmTile({
     Key? key,
     required this.title,
+    required this.time,
     required this.onPressed,
     this.onDismissed,
+    this.isClicked = true,
   }) : super(key: key);
 
   @override
@@ -32,21 +36,37 @@ class ExampleAlarmTile extends StatelessWidget {
       onDismissed: (_) => onDismissed?.call(),
       child: RawMaterialButton(
         onPressed: onPressed,
-        child: Container(
-          height: 100,
-          padding: const EdgeInsets.all(35),
-          child: Row(
+        child: SafeArea(
+          //height: 100,
+          //padding: const EdgeInsets.all(35),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
               ),
-              const Icon(Icons.keyboard_arrow_right_rounded, size: 35),
+              if (isClicked) const Icon(Icons.keyboard_arrow_right_rounded, size: 35),
             ],
+          ),
           ),
         ),
       ),
