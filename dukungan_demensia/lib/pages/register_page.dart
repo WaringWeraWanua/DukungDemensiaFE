@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dukungan_demensia/models/auth_models.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../widgets/layout/colors_layout.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,25 +37,54 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Perform login logic here
       final name = _nameController.text;
       final email = _emailController.text;
       final phoneNumber = _phoneNumberController.text;
       final role = _roleController.text;
-      final _caregiverUsername = _caregiverUsernameController.text;
+      final caregiverUsername = _caregiverUsernameController.text;
       final username = _usernameController.text;
       final password = _passwordController.text;
       print('Name: $name');
       print('Email: $email');
       print('Phone Number: $phoneNumber');
       print('Role: $role');
-      print('Caregiver ID: $_caregiverUsername');
+      print('Caregiver ID: $caregiverUsername');
       print('Username: $username');
       print('Password: $password');
 
-      // Call API, perform authentication, etc.
+      final requestBody = RegisterRequestBody(
+        username: username,
+        password: password,
+        email: email,
+        name: name,
+        role: role,
+        phoneNumber: phoneNumber,
+        caregiverUsername: caregiverUsername.isNotEmpty ? caregiverUsername : null,
+      );
+
+      const url = 'https://localhost:3000/register'; // Replace with your API endpoint
+      const headers = {'Content-Type': 'application/json'};
+
+      try {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: jsonEncode(requestBody.toJson()),
+        );
+
+        // Handle the response here
+        if (response.statusCode == 200) {
+          // Registration successful
+          // Handle success case
+        } else {
+          // Registration failed
+          // Handle error case
+        }
+      } catch (e) {
+      }
     }
   }
 

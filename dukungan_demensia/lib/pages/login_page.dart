@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dukungan_demensia/models/auth_models.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../widgets/layout/colors_layout.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,10 +27,36 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Perform login logic here
-      // Call API, perform authentication, etc.
+      final username = _usernameController.text;
+      final password = _passwordController.text;
+
+      print('username: $username');
+      print('password: $password');
+
+      final requestBody = LoginRequestBody(username: username, password: password);
+
+      const url = 'https://localhost:3000/login'; // Replace with your API endpoint
+      const headers = {'Content-Type': 'application/json'};
+
+      try {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: jsonEncode(requestBody.toJson()),
+        );
+
+        // Handle the response here
+        if (response.statusCode == 200) {
+          // Registration successful
+          // Handle success case
+        } else {
+          // Registration failed
+          // Handle error case
+        }
+      } catch (e) {
+      }
     }
   }
 
