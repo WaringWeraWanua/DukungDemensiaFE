@@ -20,7 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _roleController = TextEditingController();
-  final _caregiverIdController = TextEditingController();
+  final _caregiverUsernameController = TextEditingController();
+  bool _passwordVisible = false;
 
   @override
   void dispose() {
@@ -30,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _phoneNumberController.dispose();
     _roleController.dispose();
-    _caregiverIdController.dispose();
+    _caregiverUsernameController.dispose();
     super.dispose();
   }
 
@@ -41,9 +42,16 @@ class _RegisterPageState extends State<RegisterPage> {
       final email = _emailController.text;
       final phoneNumber = _phoneNumberController.text;
       final role = _roleController.text;
-      final caregiverId = _caregiverIdController.text;
+      final _caregiverUsername = _caregiverUsernameController.text;
       final username = _usernameController.text;
       final password = _passwordController.text;
+      print('Name: $name');
+      print('Email: $email');
+      print('Phone Number: $phoneNumber');
+      print('Role: $role');
+      print('Caregiver ID: $_caregiverUsername');
+      print('Username: $username');
+      print('Password: $password');
 
       // Call API, perform authentication, etc.
     }
@@ -53,201 +61,268 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('DementiaCare', style: TextLayout.display36),
-                    SizedBox(height: 12),
-                    Text('An app for protecting and keeping your beloved ones around', style: TextLayout.body16, textAlign: TextAlign.center,),
-                    SizedBox(height: 68),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 32, vertical: 60),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Name', style: TextLayout.title18),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              hintText: 'Your name',
-                              border: InputBorder.none,
-                              hintStyle: TextLayout.body14,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a valid name';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Text('Username', style: TextLayout.title18),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: TextFormField(
-                            controller: _usernameController,
-                            decoration: InputDecoration(
-                              hintText: 'Your username',
-                              border: InputBorder.none,
-                              hintStyle: TextLayout.body14,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a valid username';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Text('Phone Number', style: TextLayout.title18),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: TextFormField(
-                            controller: _phoneNumberController,
-                            decoration: InputDecoration(
-                              hintText: 'Your phone number',
-                              border: InputBorder.none,
-                              hintStyle: TextLayout.body14,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty || !RegExp(r'^[0-9]+$').hasMatch(value)) {
-                                return 'Please enter a valid phone number';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Text('Email', style: TextLayout.title18),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: TextFormField(
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              hintText: 'Your email',
-                              border: InputBorder.none,
-                              hintStyle: TextLayout.body14,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}').hasMatch(value)) {
-                                return 'Please enter a valid email';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text('Password', style: TextLayout.title18),
-                        SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: TextFormField(
-                            controller: _passwordController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                              suffixIcon: Icon(Icons.visibility_off),
-                            ),
-                            validator:(value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a valid password';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            isExpanded: true,
-                            value: _roleController.text,
-                            hint: Text('Role', style: TextLayout.body14,),
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Caregiver', style: TextLayout.body14,),
-                                value: 'caregiver',
+                        Text('DementiaCare', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
+                        SizedBox(height: 10),
+                        Text('An app for protecting and keeping your beloved ones around', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
+                        SizedBox(height: 40),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Nama', style: TextLayout.title18),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              DropdownMenuItem(
-                                child: Text('Patient', style: TextLayout.body14,),
-                                value: 'patient',
+                              child: TextFormField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  hintText: 'Silahkan isi nama Anda',
+                                  border: InputBorder.none,
+                                  hintStyle: TextLayout.body16,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Mohon isi nama yang valid!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
                               ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                _roleController.text = value.toString();
-                              });
-                            },
+                            ),
+                            SizedBox(height: 10),
+                            Text('Username', style: TextLayout.title18),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: TextFormField(
+                                controller: _usernameController,
+                                decoration: InputDecoration(
+                                  hintText: 'Silahkan isi username Anda',
+                                  border: InputBorder.none,
+                                  hintStyle: TextLayout.body16,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Mohon isi username yang valid!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text('Email', style: TextLayout.title18),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  hintText: 'Silahkan isi email Anda',
+                                  border: InputBorder.none,
+                                  hintStyle: TextLayout.body16,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}').hasMatch(value)) {
+                                    return 'Mohon isi email yang valid!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text('Password', style: TextLayout.title18),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: TextFormField(
+                                controller: _passwordController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                        color: ColorLayout.black4,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                obscureText: !_passwordVisible,
+                                validator:(value) {
+                                  if (value!.isEmpty) {
+                                    return 'Mohon isi password yang valid!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text('Nomor Telepon', style: TextLayout.title18),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: TextFormField(
+                                controller: _phoneNumberController,
+                                decoration: InputDecoration(
+                                  hintText: 'Silahkan isi nomor telepon Anda',
+                                  border: InputBorder.none,
+                                  hintStyle: TextLayout.body16,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                    return 'Mohon isi nomor telepon yang valid!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(
+                                color: ColorLayout.neutral4,
+                                borderRadius: BorderRadius.circular(8),
+                                // shadow
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorLayout.brBlue25.withOpacity(0.25),
+                                    spreadRadius: 0,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  borderRadius: BorderRadius.circular(8),
+                                  dropdownColor: ColorLayout.neutral4,
+                                  isExpanded: true,
+                                  value: _roleController.text.isEmpty ? null : _roleController.text,
+                                  hint: Text('Role', style: TextLayout.body16,),
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text('Caregiver', style: TextLayout.body16,),
+                                      value: 'caregiver',
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Patient', style: TextLayout.body16,),
+                                      value: 'patient',
+                                    ),
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _roleController.text = value.toString();
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: _roleController.text == 'patient',
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 20),
+                                  Text('Username Caregiver', style: TextLayout.title18),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: TextFormField(
+                                      controller: _caregiverUsernameController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Silahkan isi username caregiver Anda',
+                                        border: InputBorder.none,
+                                        hintStyle: TextLayout.body16,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          height: 45,
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorLayout.brBlue75,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: (){
+                              _submitForm();
+                            }, 
+                            child: Text('REGISTER', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
                           ),
+                        ),
+                        SizedBox(height: 24,),
+                        Row(
+                          children: [
+                            Text('Sudah memiliki akun? ', style: TextLayout.body16,),
+                            Text('Login', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75)) // perlu diganti ke navigate
+                          ],
                         ),
                       ],
-                    )
-                  ],
-                ),
-                SizedBox(height: 32,),
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorLayout.brBlue75,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
                     ),
-                    onPressed: (){
-                      _submitForm();
-                    }, 
-                    child: Text('REGISTER', style: TextLayout.title18,),
                   ),
                 ),
-                Row(
-                  children: [
-                    Text('Sudah memiliki akun?', style: TextLayout.body14,),
-                    Text(' Login', style: TextLayout.body14)
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

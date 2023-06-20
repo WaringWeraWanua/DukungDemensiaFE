@@ -17,100 +17,58 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(20),
+      body: Center(
         child: Column(
           children: [
-            SizedBox(height: 40,),
-            CircleAvatar(
-              radius: 70,
-              backgroundColor: ColorLayout.brBlue100,
-            ),
-            SizedBox(height: 40,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: ColorLayout.blue2,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorLayout.black3.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  )
-                ]
-              ),
-              child: ListTile(
-                title: Text('Nama'),
-                subtitle: Text('John Doe'),
-                leading: Icon(CupertinoIcons.person),
-                tileColor: ColorLayout.blue2,
-              ),
-            ),
-            SizedBox(height: 40,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: ColorLayout.blue2,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorLayout.black3.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  )
-                ]
-              ),
-              child: ListTile(
-                title: Text('Username'),
-                subtitle: Text('johndoe'),
-                leading: Icon(CupertinoIcons.person),
-                tileColor: ColorLayout.blue2,
-              ),
-            ),
-            SizedBox(height: 40,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: ColorLayout.blue2,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorLayout.black3.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  )
-                ]
-              ),
-              child: ListTile(
-                title: Text('Email'),
-                subtitle: Text('johndoe@gmail.com'),
-                leading: Icon(CupertinoIcons.person),
-                tileColor: ColorLayout.blue2,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 40,),
+                      CircleAvatar(
+                        radius: 70,
+                        backgroundColor: ColorLayout.brBlue75,
+                      ),
+                      SizedBox(height: 60,),
+                      Container(
+                        child: ListTile(
+                          title: Text('John Doe'),
+                          subtitle: Text('Nama'),
+                          titleTextStyle: TextLayout.display28.copyWith(color: ColorLayout.black5),
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: ListTile(
+                          title: Text('johndoe'),
+                          subtitle: Text('Username'),
+                          titleTextStyle: TextLayout.display28.copyWith(color: ColorLayout.black5),
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: ListTile(
+                          title: Text('johndoe@gmail.com'),
+                          subtitle: Text('Email'),
+                          titleTextStyle: TextLayout.display28.copyWith(color: ColorLayout.black5),
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: ListTile(
+                          title: Text('+62 812 3456 7890'),
+                          subtitle: Text('Phone'),
+                          titleTextStyle: TextLayout.display28.copyWith(color: ColorLayout.black5),
+                        ),
+                      )
+                    ]
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 40,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: ColorLayout.blue2,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorLayout.black3.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  )
-                ]
-              ),
-              child: ListTile(
-                title: Text('Phone'),
-                subtitle: Text('+62 812 3456 7890'),
-                leading: Icon(CupertinoIcons.person),
-                tileColor: ColorLayout.blue2,
-              ),
-            )
-          ]
+          ],
         ),
       ),
     );
