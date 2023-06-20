@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Perform login logic here
       final name = _nameController.text;

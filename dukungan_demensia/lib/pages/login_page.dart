@@ -162,7 +162,9 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: (){}, 
+                        onPressed: (){
+                          _submitForm();
+                        }, 
                         child: Text('LOGIN', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
                       ),
                     ),
