@@ -3,8 +3,11 @@ import 'package:dukungan_demensia/pages/login_page.dart';
 import 'package:alarm/alarm.dart';
 import 'dart:async';
 import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Alarm.init(showDebugLogs: true);
   runApp(const MyApp());
 }
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CaretakerPage(title: "Alarm"),
+      home: const ExampleAlarmHomeScreen(),
     );
   }
 }
