@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dukungan_demensia/pages/register_page.dart';
+import 'package:dukungan_demensia/pages/list_news.dart';
 import 'package:alarm/alarm.dart';
 import 'dart:async';
 import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const RegisterPage(),
+      home: const ListNewsPage(),
     );
   }
 }
