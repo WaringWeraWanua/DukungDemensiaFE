@@ -99,3 +99,17 @@ class RegisterRequestBody {
     return json;
   }
 }
+
+class RegisterResponseBody {
+  User? user;
+
+  RegisterResponseBody({
+    this.user, 
+  });
+
+  factory RegisterResponseBody.fromJson(Map<String, dynamic> json) {
+    return RegisterResponseBody(
+      user: json['user'] as User?,
+    );
+  }
+}

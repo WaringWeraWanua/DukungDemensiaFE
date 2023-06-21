@@ -6,9 +6,8 @@ class LoginApi{
   final endPointUrl =
       "https://localhost:9999/auth/login";
 
-  Future<LoginResponseBody> getArticle() async {
-    final endPointUrl = Uri.parse("https://newsapi.org/v2/everything?q=dementia&apiKey=75360416e97b4a95bc489e98eb323e5f");
-    final res = await http.get(endPointUrl);
+  Future<LoginResponseBody> postLogin() async {
+    final res = await http.get(endPointUrl as Uri);
     print(res.statusCode);
 
     if (res.statusCode == 200) {
@@ -18,7 +17,27 @@ class LoginApi{
       
       return body;
     } else {
-      throw ("Can't get the Articles");
+      throw ("Error Login");
+    }
+  }
+}
+
+class RegisterApi{
+  final endPointUrl =
+      "https://localhost:9999/auth/register";
+
+  Future<RegisterResponseBody> postRegister() async {
+    final res = await http.get(endPointUrl as Uri);
+    print(res.statusCode);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(res.body);
+
+      RegisterResponseBody body = RegisterResponseBody.fromJson(json);
+      
+      return body;
+    } else {
+      throw ("Error Registering");
     }
   }
 }

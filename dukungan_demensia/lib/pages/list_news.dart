@@ -3,10 +3,7 @@
 import 'package:dukungan_demensia/components/news_tile.dart';
 import 'package:dukungan_demensia/models/news_models.dart';
 import 'package:dukungan_demensia/services/news_api.dart';
-import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:dukungan_demensia/models/auth_models.dart';
-import '../widgets/layout/colors_layout.dart';
 
 class ListNewsPage extends StatefulWidget {
   const ListNewsPage({Key? key}) : super(key: key);
