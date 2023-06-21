@@ -1,3 +1,36 @@
+class User {
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? username;
+  String? email;
+  String? name;
+  String? phoneNumber;
+  String? role;
+
+  User({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.username,
+    this.email,
+    this.name,
+    this.phoneNumber,
+    this.role,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+    'username': username,
+    'email': email,
+    'name': name,
+    'phoneNumber': phoneNumber,
+    'role': role,
+  };
+}
+
 class LoginRequestBody {
   final String username;
   final String password;
@@ -11,6 +44,23 @@ class LoginRequestBody {
     'username': username,
     'password': password,
   };
+}
+
+class LoginResponseBody {
+  String? token;
+  User? user;
+
+  LoginResponseBody({
+    this.user, 
+    this.token
+  });
+
+  factory LoginResponseBody.fromJson(Map<String, dynamic> json) {
+    return LoginResponseBody(
+      token: json['token'] as String?,
+      user: json['user'] as User?,
+    );
+  }
 }
 
 class RegisterRequestBody {

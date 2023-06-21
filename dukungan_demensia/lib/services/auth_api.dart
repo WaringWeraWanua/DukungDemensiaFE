@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:dukungan_demensia/models/news_models.dart';
+import 'package:dukungan_demensia/models/auth_models.dart';
 import 'package:http/http.dart' as http;
 
-class NewsApi{
+class LoginApi{
   final endPointUrl =
-      "https://newsapi.org/v2/everything?q=dementia&apiKey=75360416e97b4a95bc489e98eb323e5f";
+      "https://localhost:9999/auth/login";
 
-  Future<List<Article>> getArticle() async {
+  Future<LoginResponseBody> getArticle() async {
     final endPointUrl = Uri.parse("https://newsapi.org/v2/everything?q=dementia&apiKey=75360416e97b4a95bc489e98eb323e5f");
     final res = await http.get(endPointUrl);
     print(res.statusCode);
@@ -14,11 +14,9 @@ class NewsApi{
     if (res.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(res.body);
 
-      List<dynamic> body = json['articles'];
-      List<Article> articles =
-          body.map((dynamic item) => Article.fromJson(item)).toList();
-
-      return articles;
+      LoginResponseBody body = LoginResponseBody.fromJson(json);
+      
+      return body;
     } else {
       throw ("Can't get the Articles");
     }
