@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "388497028882",
+    "project_id": "dukungan-demensia",
+    "storage_bucket": "dukungan-demensia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388497028882:android:23a12c2b93290dfe2be5cb",
+        "android_client_info": {
+          "package_name": "com.example.dukungan_demensia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388497028882-73qrqjk4lblft7akl7vfsgmr6j8i8hn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx5UyjcQa-l8HXXQuXLDYmamdUslGMwNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388497028882-73qrqjk4lblft7akl7vfsgmr6j8i8hn0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388497028882-ks0sk6ca0ofb4jibrde9f30jkpkb8q7r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dukunganDemensia"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
