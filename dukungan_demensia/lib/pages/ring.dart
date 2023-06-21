@@ -6,7 +6,6 @@ class ExampleAlarmRingScreen extends StatelessWidget {
 
   const ExampleAlarmRingScreen({Key? key, required this.alarmSettings})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +18,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const Text("🔔", style: TextStyle(fontSize: 50)),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 RawMaterialButton(
@@ -35,25 +34,26 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                           now.minute,
                           0,
                           0,
-                        ).add(const Duration(minutes: 1)),
+                        ).add(const Duration(minutes: 30)),
                       ),
                     ).then((_) => Navigator.pop(context));
                   },
                   child: Text(
-                    "Snooze",
+                    "OK",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
-                RawMaterialButton(
+                /* RawMaterialButton(
                   onPressed: () {
-                    Alarm.stop(alarmSettings.id)
-                        .then((_) => Navigator.pop(context));
+/*                     Alarm.stop(alarmSettings.id)
+                        .then((_) => Navigator.pop(context)); */
+                    Navigator.pop(context);
                   },
                   child: Text(
-                    "Stop",
+                    "Ambil Gambar Sekarang",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                ),
+                ), */
               ],
             ),
           ],
