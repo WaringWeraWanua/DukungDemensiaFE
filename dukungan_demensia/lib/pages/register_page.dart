@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:dukungan_demensia/models/auth_models.dart';
+import 'package:dukungan_demensia/services/auth_api.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../widgets/layout/colors_layout.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -24,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _roleController = TextEditingController();
   final _caregiverUsernameController = TextEditingController();
   bool _passwordVisible = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -38,8 +38,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      // Perform login logic here
+    if (_formKey.currentState!.validate() && !_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+
       final name = _nameController.text;
       final email = _emailController.text;
       final phoneNumber = _phoneNumberController.text;
@@ -47,43 +50,31 @@ class _RegisterPageState extends State<RegisterPage> {
       final caregiverUsername = _caregiverUsernameController.text;
       final username = _usernameController.text;
       final password = _passwordController.text;
-      print('Name: $name');
-      print('Email: $email');
-      print('Phone Number: $phoneNumber');
-      print('Role: $role');
-      print('Caregiver ID: $caregiverUsername');
-      print('Username: $username');
-      print('Password: $password');
 
-      final requestBody = RegisterRequestBody(
+      RegisterRequestBody requestBody = RegisterRequestBody(
         username: username,
         password: password,
         email: email,
         name: name,
         role: role,
         phoneNumber: phoneNumber,
-        caregiverUsername: caregiverUsername.isNotEmpty ? caregiverUsername : null,
       );
 
-      const url = 'https://localhost:3000/register'; // Replace with your API endpoint
-      const headers = {'Content-Type': 'application/json'};
+      if (caregiverUsername.isNotEmpty) {
+        requestBody.caregiverUsername = caregiverUsername;
+      }
 
+      final client = RegisterApi();
       try {
-        final response = await http.post(
-          Uri.parse(url),
-          headers: headers,
-          body: jsonEncode(requestBody.toJson()),
-        );
-
-        // Handle the response here
-        if (response.statusCode == 200) {
-          // Registration successful
-          // Handle success case
-        } else {
-          // Registration failed
-          // Handle error case
-        }
+        final response = await client.postRegister(requestBody);
+        print(response);
+        // Navigator.pushNamed(context, '/home');
       } catch (e) {
+        print(e);
+      }  finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -278,11 +269,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                   items: [
                                     DropdownMenuItem(
                                       child: Text('Caregiver', style: TextLayout.body16,),
-                                      value: 'caregiver',
+                                      value: 'CARE_GIVER',
                                     ),
                                     DropdownMenuItem(
                                       child: Text('Patient', style: TextLayout.body16,),
-                                      value: 'patient',
+                                      value: 'PATIENT',
                                     ),
                                   ],
                                   onChanged: (value) {
@@ -294,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                             Visibility(
-                              visible: _roleController.text == 'patient',
+                              visible: _roleController.text == 'PATIENT',
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -315,6 +306,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                         hintStyle: TextLayout.body16,
                                         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16)
                                       ),
+                                      validator: (value) {
+                                        if (value!.isEmpty && _roleController.text == 'PATIENT') {
+                                          return 'Mohon isi username caregiver yang valid!';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],
@@ -334,17 +332,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            onPressed: (){
-                              _submitForm();
-                            }, 
-                            child: Text('REGISTER', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
+                            onPressed: _isLoading ? null : _submitForm, 
+                            child: _isLoading
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.brBlue75),
+                                )
+                              : Text('REGISTER', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
                           ),
                         ),
                         SizedBox(height: 24,),
                         Row(
                           children: [
                             Text('Sudah memiliki akun? ', style: TextLayout.body16,),
-                            Text('Login', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75)) // perlu diganti ke navigate
+                            InkWell(
+                              onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+                              child: 
+                                Text('Login', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75))
+                            ) // perlu diganti ke navigate
                           ],
                         ),
                       ],

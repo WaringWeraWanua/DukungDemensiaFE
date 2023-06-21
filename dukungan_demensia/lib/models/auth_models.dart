@@ -29,6 +29,19 @@ class User {
     'phoneNumber': phoneNumber,
     'role': role,
   };
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as String?,
+      createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt'] as String),
+      username: json['username'] as String?,
+      email: json['email'] as String?,
+      name: json['name'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      role: json['role'] as String?,
+    );
+  }
 }
 
 class LoginRequestBody {
@@ -58,7 +71,7 @@ class LoginResponseBody {
   factory LoginResponseBody.fromJson(Map<String, dynamic> json) {
     return LoginResponseBody(
       token: json['token'] as String?,
-      user: json['user'] as User?,
+      user: User.fromJson(json['user'] as Map<String, dynamic>) 
     );
   }
 }
@@ -70,9 +83,9 @@ class RegisterRequestBody {
   final String username;
   final String password;
   final String phoneNumber;
-  final String? caregiverUsername;
+  String? caregiverUsername;
 
-  const RegisterRequestBody({
+  RegisterRequestBody({
     required this.username,
     required this.password,
     required this.email,
@@ -97,5 +110,19 @@ class RegisterRequestBody {
     }
 
     return json;
+  }
+}
+
+class RegisterResponseBody {
+  User? user;
+
+  RegisterResponseBody({
+    this.user, 
+  });
+
+  factory RegisterResponseBody.fromJson(Map<String, dynamic> json) {
+    return RegisterResponseBody(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
   }
 }

@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf341136-7dee-42d1-8b5f-14c9d2563f6b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/models/auth_models.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/models/auth_models.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/pages/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/pages/login_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/pages/register_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/pages/register_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/services/auth_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/services/auth_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/lib/services/news_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/lib/services/news_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dukungan_demensia/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dukungan_demensia/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/dukungan_demensia/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

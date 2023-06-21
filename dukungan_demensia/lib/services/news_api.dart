@@ -3,9 +3,6 @@ import 'package:dukungan_demensia/models/news_models.dart';
 import 'package:http/http.dart' as http;
 
 class NewsApi{
-  final endPointUrl =
-      "https://newsapi.org/v2/everything?q=dementia&apiKey=75360416e97b4a95bc489e98eb323e5f";
-
   Future<List<Article>> getArticle() async {
     final endPointUrl = Uri.parse("https://newsapi.org/v2/everything?q=dementia&apiKey=75360416e97b4a95bc489e98eb323e5f");
     final res = await http.get(endPointUrl);
@@ -20,7 +17,7 @@ class NewsApi{
 
       return articles;
     } else {
-      throw ("Can't get the Articles");
+      throw ("Error Articles");
     }
   }
 }
