@@ -5,6 +5,7 @@ import 'package:dukungan_demensia/services/auth_api.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
 import '../widgets/layout/colors_layout.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -70,7 +71,11 @@ class _RegisterPageState extends State<RegisterPage> {
         print(response);
         // Navigator.pushNamed(context, '/home');
       } catch (e) {
-        print(e);
+        await Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
       }  finally {
         setState(() {
           _isLoading = false;

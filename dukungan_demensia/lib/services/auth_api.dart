@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class LoginApi{
   Future<LoginResponseBody> postLogin(LoginRequestBody requestBody) async {
-    final res = await http.post(Uri.parse("http://192.168.1.10:9999/auth/login"),
+    final res = await http.post(Uri.parse("https://dd-server.malikrafsan.tech/auth/login"),
         body: jsonEncode(requestBody),
         headers: {
           "Content-Type": "application/json"
@@ -25,7 +25,7 @@ class LoginApi{
 
 class RegisterApi{
   Future<RegisterResponseBody> postRegister(RegisterRequestBody requestBody) async {
-    final res = await http.post(Uri.parse("http://192.168.1.10:9999/auth/register"),
+    final res = await http.post(Uri.parse("https://dd-server.malikrafsan.tech/auth/register"),
         body: jsonEncode(requestBody.toJson()),
         headers: {"Content-Type": "application/json"});
     if (res.statusCode == 200) {

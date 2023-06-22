@@ -4,6 +4,7 @@ import 'package:dukungan_demensia/models/auth_models.dart';
 import 'package:dukungan_demensia/services/auth_api.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../widgets/layout/colors_layout.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,7 +44,11 @@ class _LoginPageState extends State<LoginPage> {
         print(response);
         // Navigator.pushNamed(context, '/home');
       } catch (e) {
-        print(e);
+        await Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
       } finally {
         setState(() {
           _isLoading = false;
