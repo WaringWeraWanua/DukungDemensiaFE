@@ -83,7 +83,7 @@ class RegisterRequestBody {
   final String username;
   final String password;
   final String phoneNumber;
-  String? caregiverUsername;
+  String? careGiverUsername;
 
   RegisterRequestBody({
     required this.username,
@@ -92,7 +92,7 @@ class RegisterRequestBody {
     required this.name,
     required this.role,
     required this.phoneNumber,
-    this.caregiverUsername,
+    this.careGiverUsername,
   });
 
   Map<String, dynamic> toJson() {
@@ -105,8 +105,8 @@ class RegisterRequestBody {
       'phoneNumber': phoneNumber,
     };
 
-    if (caregiverUsername != null) {
-      json['caregiverUsername'] = caregiverUsername;
+    if (careGiverUsername != null) {
+      json['careGiverUsername'] = careGiverUsername;
     }
 
     return json;
@@ -117,12 +117,13 @@ class RegisterResponseBody {
   User? user;
 
   RegisterResponseBody({
-    this.user, 
+    this.user,
   });
 
   factory RegisterResponseBody.fromJson(Map<String, dynamic> json) {
     return RegisterResponseBody(
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] != null ? User.fromJson(json['user'] as Map<String, dynamic>) : null,
     );
   }
 }
+

@@ -42,6 +42,11 @@ class _LoginPageState extends State<LoginPage> {
       try {
         final response = await client.postLogin(requestBody);
         print(response);
+        await Fluttertoast.showToast(
+          msg: "Login Successful!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
         // Navigator.pushNamed(context, '/home');
       } catch (e) {
         await Fluttertoast.showToast(

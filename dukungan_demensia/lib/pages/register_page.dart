@@ -22,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _roleController = TextEditingController();
-  final _caregiverUsernameController = TextEditingController();
+  final _careGiverUsernameController = TextEditingController();
   bool _passwordVisible = false;
   bool _isLoading = false;
 
@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _phoneNumberController.dispose();
     _roleController.dispose();
-    _caregiverUsernameController.dispose();
+    _careGiverUsernameController.dispose();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final email = _emailController.text;
       final phoneNumber = _phoneNumberController.text;
       final role = _roleController.text;
-      final caregiverUsername = _caregiverUsernameController.text;
+      final careGiverUsername = _careGiverUsernameController.text;
       final username = _usernameController.text;
       final password = _passwordController.text;
 
@@ -61,14 +61,19 @@ class _RegisterPageState extends State<RegisterPage> {
         phoneNumber: phoneNumber,
       );
 
-      if (caregiverUsername.isNotEmpty) {
-        requestBody.caregiverUsername = caregiverUsername;
+      if (careGiverUsername.isNotEmpty) {
+        requestBody.careGiverUsername = careGiverUsername;
       }
-
+      print(requestBody.careGiverUsername);
       final client = RegisterApi();
       try {
         final response = await client.postRegister(requestBody);
         print(response);
+        await Fluttertoast.showToast(
+          msg: "Register Successful!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
         // Navigator.pushNamed(context, '/home');
       } catch (e) {
         await Fluttertoast.showToast(
@@ -304,7 +309,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: TextFormField(
-                                      controller: _caregiverUsernameController,
+                                      controller: _careGiverUsernameController,
                                       decoration: InputDecoration(
                                         hintText: 'Silahkan isi username caregiver Anda',
                                         border: InputBorder.none,

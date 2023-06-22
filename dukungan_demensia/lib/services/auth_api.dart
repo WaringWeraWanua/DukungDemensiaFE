@@ -9,16 +9,15 @@ class LoginApi{
         headers: {
           "Content-Type": "application/json"
       });
-
+    Map<String, dynamic> json = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(res.body);
       LoginResponseBody body = LoginResponseBody.fromJson(json['data']);
       print(body.token);
       return body;
     } else {
       print('Error Login: ${res.statusCode}');
       print('Error Body: ${res.body}');
-      throw ("Error Login");
+      throw ("Error Login : ${json['message']}");
     }
   }
 }
@@ -28,14 +27,15 @@ class RegisterApi{
     final res = await http.post(Uri.parse("https://dd-server.malikrafsan.tech/auth/register"),
         body: jsonEncode(requestBody.toJson()),
         headers: {"Content-Type": "application/json"});
+
+    Map<String, dynamic> json = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(res.body);
       RegisterResponseBody body = RegisterResponseBody.fromJson(json['data']);
       return body;
     } else {
       print('Error Registering: ${res.statusCode}');
       print('Error Body: ${res.body}');
-      throw ("Error Registering");
+      throw ("Error Registering : ${json['message']}");
     }
   }
 }
