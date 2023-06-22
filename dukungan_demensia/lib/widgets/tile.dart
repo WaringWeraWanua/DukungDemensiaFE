@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dukungan_demensia/main.dart';
 
 class ExampleAlarmTile extends StatelessWidget {
   final String title;
@@ -64,7 +65,7 @@ class ExampleAlarmTile extends StatelessWidget {
                   ),
                 ],
               ),
-              if (isClicked) const Icon(Icons.keyboard_arrow_right_rounded, size: 35),
+              if (isClicked) const Icon(Icons.keyboard_arrow_right_rounded, size: 35) else const Icon(Icons.camera_alt, size: 35),
             ],
           ),
           ),
