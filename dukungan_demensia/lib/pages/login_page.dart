@@ -6,6 +6,7 @@ import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../widgets/layout/colors_layout.dart';
+import 'package:dukungan_demensia/components/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,7 +42,10 @@ class _LoginPageState extends State<LoginPage> {
       final client = LoginApi();
       try {
         final response = await client.postLogin(requestBody);
-        print(response);
+        globals.token = response.token!;
+        globals.id = response.user!.id!;
+        globals.username = response.user!.username!;
+        globals.role = response.user!.role!;
         await Fluttertoast.showToast(
           msg: "Login Successful!",
           toastLength: Toast.LENGTH_LONG,
