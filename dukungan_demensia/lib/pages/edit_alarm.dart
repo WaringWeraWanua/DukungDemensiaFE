@@ -1,8 +1,11 @@
 import 'package:alarm/alarm.dart';
+import 'package:dukungan_demensia/models/schedule_models.dart';
 import 'package:flutter/material.dart';
+import 'package:dukungan_demensia/services/schedule_api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
-  final AlarmSettings? alarmSettings;
+  final DetilEvent? alarmSettings;
 
   const ExampleAlarmEditScreen({Key? key, this.alarmSettings})
       : super(key: key);
@@ -22,6 +25,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   //late String title;
 
   late TextEditingController title = TextEditingController();
+  late TextEditingController description = TextEditingController();
 
   @override
   void initState() {
@@ -37,16 +41,16 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       assetAudio = "assets/marimba.mp3";
     } else {
       selectedTime = TimeOfDay(
-        hour: widget.alarmSettings!.dateTime.hour,
-        minute: widget.alarmSettings!.dateTime.minute,
+        hour: widget.alarmSettings!.startTime!.hour,
+        minute: widget.alarmSettings!.startTime!.minute,
       );
-      loopAudio = widget.alarmSettings!.loopAudio;
-      vibrate = widget.alarmSettings!.vibrate;
-      showNotification = widget.alarmSettings!.notificationTitle != null &&
-          widget.alarmSettings!.notificationTitle!.isNotEmpty &&
-          widget.alarmSettings!.notificationBody != null &&
-          widget.alarmSettings!.notificationBody!.isNotEmpty;
-      assetAudio = widget.alarmSettings!.assetAudioPath;
+      loopAudio = true;
+      vibrate = true;
+      showNotification = widget.alarmSettings!.title != null &&
+          widget.alarmSettings!.title!.isNotEmpty &&
+          widget.alarmSettings!.description != null &&
+          widget.alarmSettings!.description!.isNotEmpty;
+      assetAudio = widget.alarmSettings!.ringtoneType!;
     }
   }
 
@@ -78,7 +82,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     }
 
     final alarmSettings = AlarmSettings(
-      id: id,
+      id: int.parse(id.toString()),
       dateTime: dateTime,
       loopAudio: loopAudio,
       vibrate: vibrate,
@@ -90,14 +94,52 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     return alarmSettings;
   }
 
-  void saveAlarm() {
-    Alarm.set(alarmSettings: buildAlarmSettings()).then((res) {
-      if (res) Navigator.pop(context, true);
-    });
+  Future<void> saveAlarm() async {
+      DateTime dateToday =new DateTime.now(); 
+      String date = dateToday.toString().substring(0,10);
+      String hour = selectedTime.hour.toString();
+      String minute = selectedTime.minute.toString();
+      if(hour.length == 1) {
+        hour = "0" + hour;
+      }
+      if(minute.length == 1) {
+        minute = "0" + minute;
+      }
+      PostEventRequestBody requestBody = PostEventRequestBody(
+        title: title.text,
+        description: description.text,
+        startTime: date + "T" + hour + ":" + minute + ":00.000Z",
+        ringtoneType: assetAudio,
+      );
+      print(requestBody);
+      print(selectedTime);
+      print(selectedTime.toString());
+      print(requestBody.startTime);
+
+      final client = PostScheduleAPI();
+      try {
+        print("MASUK kirim");
+        final response = await client.postSchedule(requestBody);
+        print(response);
+        await Fluttertoast.showToast(
+          msg: "Register Successful!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
+        // Navigator.pushNamed(context, '/home');
+      } catch (e) {
+        print(e);
+        await Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
+      } 
+    Navigator.pop(context, true);
   }
 
   void deleteAlarm() {
-    Alarm.stop(widget.alarmSettings!.id).then((res) {
+    Alarm.stop(int.parse(widget.alarmSettings!.id!)).then((res) {
       if (res) Navigator.pop(context, true);
     });
   }
@@ -167,25 +209,14 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Loop alarm audio',
+                'Deskripsi',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              Switch(
-                value: loopAudio,
-                onChanged: (value) => setState(() => loopAudio = value),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Vibrate',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: vibrate,
-                onChanged: (value) => setState(() => vibrate = value),
+              const SizedBox(width: 200),
+              Expanded(
+                child: TextFormField(
+                  controller: description,
+                ),
               ),
             ],
           ),

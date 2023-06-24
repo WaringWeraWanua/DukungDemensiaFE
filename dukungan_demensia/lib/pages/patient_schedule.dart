@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:dukungan_demensia/models/schedule_models.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:camera/camera.dart';
@@ -13,6 +14,15 @@ import '../widgets/layout/colors_layout.dart';
 import 'package:dukungan_demensia/widgets/layout/text_layout.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:dukungan_demensia/models/schedule_models.dart';
+import 'package:dukungan_demensia/services/schedule_api.dart';
+
+import 'package:dukungan_demensia/models/proof_image_models.dart';
+import 'package:dukungan_demensia/services/proof_image_api.dart';
+
+import 'package:dukungan_demensia/components/globals.dart' as globals;
 
 class PatientAlarmScreen extends StatefulWidget {
   const PatientAlarmScreen({Key? key}) : super(key: key);
@@ -24,15 +34,55 @@ class PatientAlarmScreen extends StatefulWidget {
 class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
   late List<AlarmSettings> alarms;
 
+  ScheduleAPI client = ScheduleAPI();
+
   static StreamSubscription? subscription;
+  late List<DetilEvent> listEvent;
+
+  
 
   @override
   void initState() {
     super.initState();
     loadAlarms();
+    loadData();
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
     );
+  }
+
+  void loadData() async {
+    listEvent = await client.getEvent();
+    print(listEvent);
+    for (var i=0; i<listEvent.length; i++) {
+      final now = DateTime.now();
+
+      DateTime dateTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        listEvent[i].startTime!.hour,
+        listEvent[i].startTime!.minute,
+        0,
+        0,
+      );
+      if (dateTime.isBefore(DateTime.now())) {
+        dateTime = dateTime.add(const Duration(days: 1));
+      }
+      final alarmSettings = AlarmSettings(
+        id: i,
+        dateTime: dateTime,
+        loopAudio: true,
+        vibrate: true,
+        notificationTitle: listEvent[i].title,
+        notificationBody: listEvent[i].description,
+        assetAudioPath: 'assets/marimba.mp3',
+        stopOnNotificationOpen: false,
+      );
+      print(alarmSettings);
+      Alarm.stop(i);
+      Alarm.set(alarmSettings: alarmSettings);
+    }
   }
 
   void loadAlarms() {
@@ -52,7 +102,7 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
     loadAlarms();
   }
 
-  Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
+  Future<void> navigateToAlarmScreen(DetilEvent? settings) async {
     final res = await showModalBottomSheet<bool?>(
         context: context,
         isScrollControlled: true,
@@ -78,110 +128,148 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Caretaker Screen')),
-      body: SafeArea(
-        child: alarms.isNotEmpty
-            ? ListView.separated(
-                itemCount: alarms.length,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  return ExampleAlarmTile(
-                    key: Key(alarms[index].id.toString()),
-                    time: TimeOfDay(
-                      hour: alarms[index].dateTime.hour,
-                      minute: alarms[index].dateTime.minute,
-                    ).format(context),
-                    title: alarms[index].notificationTitle!,
-                    onPressed: () async {
-                      try {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DisplayPictureScreen(),
-                          ),
-                        );
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
-                    isClicked: false,
-                    onDismissed: () {
-                      Alarm.stop(alarms[index].id).then((_) => loadAlarms());
-                    },
-                  );
-                },
-              )
-            : Center(
-                child: Text(
-                  "Anda belum mengatur jadwal",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
+      appBar: AppBar(title: const Text('Patient Screen')),
+      body: FutureBuilder(
+        future: client.getEvent(),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            List<DetilEvent> event = snapshot.data as List<DetilEvent>; 
+            return SafeArea(
+                child: event.isNotEmpty
+                    ? ListView.separated(
+                        itemCount: event.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) {
+                          return ExampleAlarmTile(
+                            key: Key(event[index].id.toString()),
+                            time: TimeOfDay(
+                              hour: event[index].startTime!.hour,
+                              minute: event[index].startTime!.minute,
+                            ).format(context),
+                            description: event[index].description!,
+                            title: event[index].title!,
+                            alreadySendToday: event[index].doneTime != null && event[index].doneTime.toString() != "" && DateTime.now().toString().substring(0,10) == event[index].doneTime!.day.toString(),
+                            onPressed: () async {
+                              try {
+                                await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DisplayPictureScreen(id: event[index].id.toString()),
+                                  ),
+                                );
+                              } catch (e) {
+                                print(e);
+                              }
+                            },
+                            isClicked: false,
+                            onDismissed: () {
+                              Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+                            },
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          "Anda belum mengatur jadwal",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+              );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(
-              onPressed: () => navigateToAlarmScreen(null),
-              child: const Icon(Icons.alarm_add_rounded, size: 33),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+                 
   }
 }
 
 class DisplayPictureScreen extends StatefulWidget {
-  const DisplayPictureScreen({Key? key}) : super(key: key);
+  final String? id;
+  const DisplayPictureScreen({Key? key, this.id}) : super(key: key);
 
   @override
   State<DisplayPictureScreen> createState() => _DisplayPictureScreenState();
 }
 
 class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  //final String? id;
+
   late String imagePath = "";
   late String imageUrl = "";
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   bool getPicture = true;
   XFile? image;
+  bool _isLoading = false;
 
-  List<CameraDescription>? cameras; //list out the camera available
-  CameraController? controller; //controller for camera
+  List<CameraDescription>? cameras;
+  CameraController? controller; 
 
-    loadCamera() async {
-      cameras = await availableCameras();
-      if(cameras != null){
-        controller = CameraController(cameras![0], ResolutionPreset.max);
-                    //cameras[0] = first camera, change to 1 to another camera
-                    
-        controller!.initialize().then((_) {
-            if (!mounted) {
-              return;
-            }
-            setState(() {});
+  loadCamera() async {
+    cameras = await availableCameras();
+    if(cameras != null){
+      controller = CameraController(cameras![0], ResolutionPreset.max);                    
+      controller!.initialize().then((_) {
+          if (!mounted) {
+            return;
+          }
+          setState(() {});
+      });
+    }else{
+      print("NO any camera found");
+    }
+  }
+
+  Future<void> _submitForm() async {
+    var imageUrl;
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        imageUrl = await uploadImage();
+      } catch (e) {
+        print("Gagal mengunggah gambar");
+        setState(() {
+          _isLoading = false;
         });
-      }else{
-        print("NO any camera found");
       }
+      print(imageUrl);
+      ImageRequestBody requestBody = ImageRequestBody(
+        imageUrl: imageUrl,
+      );
+      print(requestBody.imageUrl);
+      final client = ProofImage();
+      try {
+        print("MARK");
+        final response = await client.postProofImage(requestBody, widget.id!);
+        print(response);
+        await Fluttertoast.showToast(
+          msg: "Berhasil mengunggah bukti!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
+        Navigator.pop(context);
+      } catch (e) {
+        await Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
+      }  finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
   void initState() {
     loadCamera();
     super.initState();
-/*     _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      camera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
-
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize(); */
   }
 
   uploadImage() async {
@@ -192,18 +280,16 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       var file = File(imagePath);
       final ref = FirebaseStorage.instance.ref().child("file/" + uuid.v4());
       var uploadTask = ref.putFile(file);
-      final snapshot = await uploadTask!.whenComplete(() => {});
+      final snapshot = await uploadTask.whenComplete(() => {});
       final urlDownload = await snapshot.ref.getDownloadURL();
       setState(() {
         imageUrl = urlDownload;
       });
-      print("HASIL DOWNLOAD: ");
       print(urlDownload);
-      print("==================================");
+      return urlDownload;
     } catch (e) {
-      print("MARKKK");
       print(e);
-      print("MARKKK");
+      return "";
     }
   }
 
@@ -279,10 +365,13 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: (){
-              uploadImage().then((_) => Navigator.pop(context));
+            onPressed: _isLoading ? null : (){
+              _submitForm();
+              // uploadImage().then((_) => Navigator.pop(context));
             }, 
-            child: Text('Simpan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
+            child: _isLoading ?CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.brBlue75),
+                                ) : Text('Simpan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
           ),
         ]
       )

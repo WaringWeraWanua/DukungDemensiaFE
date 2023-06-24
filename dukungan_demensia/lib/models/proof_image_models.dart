@@ -12,6 +12,18 @@ class ImageRequestBody {
   };
 }
 
+class AcceptProofImageBody {
+  final String doneTime;
+
+  const AcceptProofImageBody({
+    required this.doneTime, 
+  });
+
+  Map<String, dynamic> toJson() => {
+    'doneTime': doneTime,
+  };
+}
+
 class DetilEventSingle {
   String? id;
   DateTime? createdAt;

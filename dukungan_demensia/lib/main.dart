@@ -37,8 +37,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/register': (context) => RegisterPage(),
-        '/login': (context) => LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/login': (context) => const LoginPage(),
+        '/caregiver': (context) => const CaretakerAlarmScreen(),
+        '/patient': (context) => const PatientAlarmScreen(),
       },
       home: const LoginPage(),
     );

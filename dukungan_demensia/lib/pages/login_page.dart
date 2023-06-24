@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../widgets/layout/colors_layout.dart';
 import 'package:dukungan_demensia/components/globals.dart' as globals;
+import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -51,6 +52,11 @@ class _LoginPageState extends State<LoginPage> {
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
+        if(globals.role == "PATIENT") {
+          await Navigator.pushReplacementNamed(context, '/patient');
+        } else {
+          await Navigator.pushReplacementNamed(context, '/caregiver');
+        }
         // Navigator.pushNamed(context, '/home');
       } catch (e) {
         await Fluttertoast.showToast(

@@ -3,18 +3,24 @@ import 'package:dukungan_demensia/main.dart';
 
 class ExampleAlarmTile extends StatelessWidget {
   final String title;
+  final String description;
   final String time;
   final bool isClicked;
   final void Function() onPressed;
   final void Function()? onDismissed;
+  final bool showImage;
+  final bool alreadySendToday;
 
   const ExampleAlarmTile({
     Key? key,
     required this.title,
+    required this.description,
     required this.time,
     required this.onPressed,
     this.onDismissed,
     this.isClicked = true,
+    this.showImage = false,
+    this.alreadySendToday = false,
   }) : super(key: key);
 
   @override
@@ -36,6 +42,7 @@ class ExampleAlarmTile extends StatelessWidget {
       ),
       onDismissed: (_) => onDismissed?.call(),
       child: RawMaterialButton(
+        fillColor: alreadySendToday ? Colors.grey : Colors.white,
         onPressed: onPressed,
         child: SafeArea(
           //height: 100,
@@ -45,27 +52,40 @@ class ExampleAlarmTile extends StatelessWidget {
             child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  Text(
-                    time,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
+                    Text(
+                      description,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      time,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              if (isClicked) const Icon(Icons.keyboard_arrow_right_rounded, size: 35) else const Icon(Icons.camera_alt, size: 35),
+              if (!isClicked || (isClicked && showImage)) const Icon(Icons.camera_alt, size: 35),
             ],
           ),
           ),
