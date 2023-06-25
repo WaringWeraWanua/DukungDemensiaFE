@@ -53,35 +53,37 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
 
   void loadData() async {
     listEvent = await client.getEvent();
-    print(listEvent);
     for (var i=0; i<listEvent.length; i++) {
       final now = DateTime.now();
-
-      DateTime dateTime = DateTime(
-        now.year,
-        now.month,
-        now.day,
-        listEvent[i].startTime!.hour,
-        listEvent[i].startTime!.minute,
-        0,
-        0,
-      );
-      if (dateTime.isBefore(DateTime.now())) {
-        dateTime = dateTime.add(const Duration(days: 1));
+      if(!listEvent[i].startTime!.isBefore(DateTime.now())) {
+        DateTime dateTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          listEvent[i].startTime!.hour,
+          listEvent[i].startTime!.minute,
+          0,
+          0,
+        );
+        if (dateTime.isBefore(DateTime.now())) {
+          dateTime = dateTime.add(const Duration(days: 1));
+        }
+        final alarmSettings = AlarmSettings(
+          id: i,
+          dateTime: dateTime,
+          loopAudio: true,
+          vibrate: true,
+          notificationTitle: listEvent[i].title,
+          notificationBody: listEvent[i].description,
+          assetAudioPath: 'assets/marimba.mp3',
+          stopOnNotificationOpen: false,
+        );
+        print(alarmSettings);
+        Alarm.stop(i);
+        Alarm.set(alarmSettings: alarmSettings);
+      } else {
+        Alarm.stop(i);
       }
-      final alarmSettings = AlarmSettings(
-        id: i,
-        dateTime: dateTime,
-        loopAudio: true,
-        vibrate: true,
-        notificationTitle: listEvent[i].title,
-        notificationBody: listEvent[i].description,
-        assetAudioPath: 'assets/marimba.mp3',
-        stopOnNotificationOpen: false,
-      );
-      print(alarmSettings);
-      Alarm.stop(i);
-      Alarm.set(alarmSettings: alarmSettings);
     }
   }
 
@@ -148,7 +150,7 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
                             ).format(context),
                             description: event[index].description!,
                             title: event[index].title!,
-                            alreadySendToday: event[index].doneTime != null && event[index].doneTime.toString() != "" && DateTime.now().toString().substring(0,10) == event[index].doneTime!.day.toString(),
+                            alreadySendToday: event[index].proofImageUrl != "" && event[index].proofImageUrl != null,
                             onPressed: () async {
                               try {
                                 await Navigator.of(context).push(
@@ -299,11 +301,14 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Column(
+      body: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (getPicture) Container(
             height:400,
-            width:400,
+            width:300,
             child: controller == null?
               Center(child:Text("Loading Camera...")):
                     !controller!.value.isInitialized?
@@ -314,7 +319,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           ),
           if (!getPicture) Container(
             height:400,
-            width:400,
+            width:300,
             child: Image.file(File(imagePath)),
           ),
           // Image.file(File(imagePath)),
@@ -374,6 +379,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                                 ) : Text('Simpan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
           ),
         ]
+      )
       )
     );
   }

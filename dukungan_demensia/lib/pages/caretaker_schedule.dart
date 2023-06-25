@@ -101,7 +101,7 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
                             description: event[index].description!,
                             title: event[index].title!,
                             showImage: event[index].proofImageUrl != "" && event[index].proofImageUrl != null,
-                            alreadySendToday: event[index].doneTime?.toLocal() != null && event[index].doneTime?.toLocal().toString() != "" && DateTime.now().toString().substring(0,10) == event[index].doneTime!.toLocal().day.toString(),
+                            alreadySendToday: event[index].doneTime?.toLocal() != null && event[index].doneTime?.toLocal().toString() != "",
                             //onPressed: () => event[index].proofImageUrl == "" ? null : DisplayPictureCaretaker(event[index].proofImageUrl!),
                             onPressed: () async {
                               try {
@@ -124,11 +124,18 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
                       )
                     : Center(
                         child: Text(
-                          "Anda belum mengatur jadwal",
+                          "Anda belum mengatur mengatur jadwal",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
               );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Anda belum memiliki pasien",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            );
           }
           return Center(
             child: CircularProgressIndicator(),

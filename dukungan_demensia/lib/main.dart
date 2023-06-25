@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:alarm/alarm.dart';
 import 'dart:async';
 import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
+import 'package:dukungan_demensia/pages/bottom_navbar_caretaker.dart';
+import 'package:dukungan_demensia/pages/bottom_navbar_patient.dart';
 import 'package:dukungan_demensia/pages/patient_schedule.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,8 +41,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/register': (context) => const RegisterPage(),
         '/login': (context) => const LoginPage(),
-        '/caregiver': (context) => const CaretakerAlarmScreen(),
-        '/patient': (context) => const PatientAlarmScreen(),
+        '/caregiver': (context) => const BottomNavbarCaretaker(),
+        '/patient': (context) => const BottomNavbarPatient(),
       },
       home: const LoginPage(),
     );

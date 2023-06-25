@@ -17,9 +17,7 @@ class ScheduleAPI{
     print("HASIL API");
     print(res.statusCode);
     if (res.statusCode == 200) {
-      print("MARK");
       //EventResponseBody body = EventResponseBody.fromJson(json['data']);
-      print("MARK2");
       // List<DetilEvent> bodyevent = List<DetilEvent>.fromJson(json['data']);
       List<dynamic> body = json['data']['events'];
       List<DetilEvent> events =
@@ -30,7 +28,7 @@ class ScheduleAPI{
     } else {
       print('Error Login: ${res.statusCode}');
       print('Error Body: ${res.body}');
-      throw ("Error Login : ${json['message']}");
+      return [];
     }
   }
 }

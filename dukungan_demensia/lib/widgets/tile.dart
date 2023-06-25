@@ -63,7 +63,7 @@ class ExampleAlarmTile extends StatelessWidget {
                       title,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 22,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -71,14 +71,14 @@ class ExampleAlarmTile extends StatelessWidget {
                       description,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(
                       time,
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
