@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../widgets/layout/colors_layout.dart';
 import 'package:dukungan_demensia/components/globals.dart' as globals;
-import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -47,17 +46,18 @@ class _LoginPageState extends State<LoginPage> {
         globals.id = response.user!.id!;
         globals.username = response.user!.username!;
         globals.role = response.user!.role!;
+
         await Fluttertoast.showToast(
           msg: "Login Successful!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
+
         if(globals.role == "PATIENT") {
           await Navigator.pushReplacementNamed(context, '/patient');
         } else {
           await Navigator.pushReplacementNamed(context, '/caregiver');
         }
-        // Navigator.pushNamed(context, '/home');
       } catch (e) {
         await Fluttertoast.showToast(
           msg: e.toString(),
@@ -90,9 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Column(
                           children: [
-                            Text('DementiaCare', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
+                            Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
                             SizedBox(height: 12),
-                            Text('An app for protecting and keeping your beloved ones around', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
+                            Text('Peduli dan lindungi orang kesayangan Anda', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
                             SizedBox(height: 60),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

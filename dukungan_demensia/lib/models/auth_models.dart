@@ -6,6 +6,7 @@ class User {
   String? email;
   String? name;
   String? phoneNumber;
+  String? password;
   String? role;
 
   User({
@@ -16,6 +17,7 @@ class User {
     this.email,
     this.name,
     this.phoneNumber,
+    this.password,
     this.role,
   });
 
@@ -27,6 +29,7 @@ class User {
     'email': email,
     'name': name,
     'phoneNumber': phoneNumber,
+    'password': password,
     'role': role,
   };
 
@@ -38,6 +41,7 @@ class User {
       username: json['username'] as String?,
       email: json['email'] as String?,
       name: json['name'] as String?,
+      password: json['password'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       role: json['role'] as String?,
     );
@@ -122,8 +126,7 @@ class RegisterResponseBody {
 
   factory RegisterResponseBody.fromJson(Map<String, dynamic> json) {
     return RegisterResponseBody(
-      user: json['user'] != null ? User.fromJson(json['user'] as Map<String, dynamic>) : null,
+      user: json != null ? User.fromJson(json as Map<String, dynamic>) : null,
     );
   }
 }
-

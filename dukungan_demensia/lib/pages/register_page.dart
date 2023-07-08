@@ -64,17 +64,15 @@ class _RegisterPageState extends State<RegisterPage> {
       if (careGiverUsername.isNotEmpty) {
         requestBody.careGiverUsername = careGiverUsername;
       }
-      print(requestBody.careGiverUsername);
       final client = RegisterApi();
       try {
         final response = await client.postRegister(requestBody);
-        print(response);
         await Fluttertoast.showToast(
           msg: "Register Successful!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
-        // Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/login');
       } catch (e) {
         await Fluttertoast.showToast(
           msg: e.toString(),
@@ -104,9 +102,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('DementiaCare', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
+                        Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
                         SizedBox(height: 10),
-                        Text('An app for protecting and keeping your beloved ones around', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
+                        Text('Peduli dan lindungi orang kesayangan Anda', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
                         SizedBox(height: 40),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -182,13 +182,10 @@ class _DisplayPictureCaretakerState extends State<DisplayPictureCaretaker> {
     AcceptProofImageBody requestBody = AcceptProofImageBody(
       doneTime: date + "T" + time + "Z",
     );
-    print(requestBody.doneTime);
 
     final client = AcceptProofImage();
     try {
-      print("TEST");
       final response = await client.acceptProofImage(requestBody, widget.id!);
-      print(response);
       await Fluttertoast.showToast(
         msg: "Sukses menyetujui!",
         toastLength: Toast.LENGTH_LONG,

@@ -5,25 +5,17 @@ import 'package:dukungan_demensia/components/globals.dart' as globals;
 
 class ScheduleAPI{
   Future<List<DetilEvent>> getEvent() async {
-    print("TEMBAK API");
-    print("TOKEN");
-    print(globals.token);
     final res = await http.get(Uri.parse("https://dd-server.malikrafsan.tech/event"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer " + globals.token,
       });
     Map<String, dynamic> json = jsonDecode(res.body);
-    print("HASIL API");
-    print(res.statusCode);
     if (res.statusCode == 200) {
       //EventResponseBody body = EventResponseBody.fromJson(json['data']);
       // List<DetilEvent> bodyevent = List<DetilEvent>.fromJson(json['data']);
       List<dynamic> body = json['data']['events'];
-      List<DetilEvent> events =
-          body.map((dynamic item) => DetilEvent.fromJson(item)).toList();
-      print(events.length);
-      print(body);
+      List<DetilEvent> events = body.map((dynamic item) => DetilEvent.fromJson(item)).toList();
       return events;
     } else {
       print('Error Login: ${res.statusCode}');

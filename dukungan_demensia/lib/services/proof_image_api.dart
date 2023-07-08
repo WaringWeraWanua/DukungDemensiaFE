@@ -11,7 +11,6 @@ class ProofImage{
           "Content-Type": "application/json",
           "Authorization": "Bearer " + globals.token,
       });
-    //Map<String, dynamic> json = jsonDecode(res.body);
     print(res);
     print(res.body);
     if (res.statusCode == 200) {
@@ -33,7 +32,6 @@ class AcceptProofImage{
           "Authorization": "Bearer " + globals.token,
       });
     print("bip");
-    //Map<String, dynamic> json = jsonDecode(res.body);
     if (res.statusCode == 200) {
       return true;
     } else {

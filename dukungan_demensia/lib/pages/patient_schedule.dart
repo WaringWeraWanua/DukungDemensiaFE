@@ -78,7 +78,6 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
           assetAudioPath: 'assets/marimba.mp3',
           stopOnNotificationOpen: false,
         );
-        print(alarmSettings);
         Alarm.stop(i);
         Alarm.set(alarmSettings: alarmSettings);
       } else {
@@ -183,7 +182,6 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
         }),
       ),
     );
-                 
   }
 }
 
@@ -238,16 +236,12 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           _isLoading = false;
         });
       }
-      print(imageUrl);
       ImageRequestBody requestBody = ImageRequestBody(
         imageUrl: imageUrl,
       );
-      print(requestBody.imageUrl);
       final client = ProofImage();
       try {
-        print("MARK");
         final response = await client.postProofImage(requestBody, widget.id!);
-        print(response);
         await Fluttertoast.showToast(
           msg: "Berhasil mengunggah bukti!",
           toastLength: Toast.LENGTH_LONG,
@@ -287,7 +281,6 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       setState(() {
         imageUrl = urlDownload;
       });
-      print(urlDownload);
       return urlDownload;
     } catch (e) {
       print(e);

@@ -111,16 +111,10 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
         startTime: date + "T" + hour + ":" + minute + ":00.000Z",
         ringtoneType: assetAudio,
       );
-      print(requestBody);
-      print(selectedTime);
-      print(selectedTime.toString());
-      print(requestBody.startTime);
 
       final client = PostScheduleAPI();
       try {
-        print("MASUK kirim");
         final response = await client.postSchedule(requestBody);
-        print(response);
         await Fluttertoast.showToast(
           msg: "Register Successful!",
           toastLength: Toast.LENGTH_LONG,
