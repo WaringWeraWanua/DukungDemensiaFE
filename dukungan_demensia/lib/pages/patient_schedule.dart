@@ -24,6 +24,7 @@ import 'package:dukungan_demensia/services/proof_image_api.dart';
 
 import 'package:dukungan_demensia/components/globals.dart' as globals;
 
+
 class PatientAlarmScreen extends StatefulWidget {
   const PatientAlarmScreen({Key? key}) : super(key: key);
 
@@ -129,7 +130,13 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Patient Screen')),
+      appBar: AppBar(
+        title: const Text(
+          'Selamat datang, Pasien!',
+          style: TextStyle(color: ColorLayout.blue4),
+        ),
+        backgroundColor: ColorLayout.neutral5,
+      ),
       body: FutureBuilder(
         future: client.getEvent(),
         builder: ((context, snapshot) {
@@ -137,9 +144,8 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
             List<DetilEvent> event = snapshot.data as List<DetilEvent>; 
             return SafeArea(
                 child: event.isNotEmpty
-                    ? ListView.separated(
+                    ? ListView.builder(
                         itemCount: event.length,
-                        separatorBuilder: (context, index) => const Divider(),
                         itemBuilder: (context, index) {
                           return ExampleAlarmTile(
                             key: Key(event[index].id.toString()),
@@ -149,6 +155,7 @@ class _PatientAlarmScreenState extends State<PatientAlarmScreen> {
                             ).format(context),
                             description: event[index].description!,
                             title: event[index].title!,
+                            isPatient: true,
                             alreadySendToday: event[index].proofImageUrl != "" && event[index].proofImageUrl != null,
                             onPressed: () async {
                               try {
@@ -291,7 +298,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
+      appBar: AppBar(
+        title: const Text('Kirimkan Foto Kegiatan'),
+        backgroundColor: ColorLayout.blue4,
+      ),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: Container(
@@ -299,9 +309,10 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 50),
           if (getPicture) Container(
-            height:400,
-            width:300,
+            //height:400,
+            width:250,
             child: controller == null?
               Center(child:Text("Loading Camera...")):
                     !controller!.value.isInitialized?
@@ -311,66 +322,79 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                       CameraPreview(controller!)
           ),
           if (!getPicture) Container(
-            height:400,
-            width:300,
+            width:250,
             child: Image.file(File(imagePath)),
           ),
+          const SizedBox(height: 30),
           // Image.file(File(imagePath)),
-          if (getPicture) ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorLayout.brBlue50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+          if (getPicture) SizedBox(
+            width: 250,
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorLayout.blue4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-            ),
-            onPressed: () async{
-                try {
-                  if(controller != null){ //check if contrller is not null
-                      if(controller!.value.isInitialized){ //check if controller is initialized
-                          image = await controller!.takePicture(); //capture image
-                          setState(() {
-                            //update UI
-                            getPicture = false;
-                            imagePath = image!.path;
-                          });
-                      }
+              onPressed: () async {
+                  try {
+                    if(controller != null){ //check if contrller is not null
+                        if(controller!.value.isInitialized){ //check if controller is initialized
+                            image = await controller!.takePicture(); //capture image
+                            setState(() {
+                              //update UI
+                              getPicture = false;
+                              imagePath = image!.path;
+                            });
+                        }
+                    }
+                  } catch (e) {
+                      print(e); //show error
                   }
-                } catch (e) {
-                    print(e); //show error
-                }
-            },
-            child: Text('Capture', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
-          ),
-          if (!getPicture) ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorLayout.brBlue50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              },
+              child: Text('Tangkap Gambar', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
             ),
-            onPressed: (){
-              setState(() {
-                imagePath = "";
-                getPicture = true;
-              });
-            }, 
-            child: Text('Ulangi', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
-          ),
-          if (!getPicture) ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorLayout.brBlue50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+          ), 
+          if (!getPicture) SizedBox(
+            width: 250, // <-- Your width
+            height: 50, // <-- Your height
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorLayout.blue4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
+              onPressed: (){
+                setState(() {
+                  imagePath = "";
+                  getPicture = true;
+                });
+              }, 
+              child: Text('Ulangi', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
             ),
-            onPressed: _isLoading ? null : (){
-              _submitForm();
-              // uploadImage().then((_) => Navigator.pop(context));
-            }, 
-            child: _isLoading ?CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.brBlue75),
-                                ) : Text('Simpan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
           ),
+          const SizedBox(height: 10),
+          if (!getPicture) SizedBox(
+            width: 250,
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorLayout.blue4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: _isLoading ? null : (){
+                _submitForm();
+                // uploadImage().then((_) => Navigator.pop(context));
+              }, 
+              child: _isLoading ? const CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.blue4),
+                                  ) : Text('Simpan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
+            ),
+          )
         ]
       )
       )

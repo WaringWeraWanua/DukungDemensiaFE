@@ -80,7 +80,13 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Caretaker Screen')),
+      appBar: AppBar(
+        title: const Text(
+          'Selamat datang, Perawat!',
+          style: TextStyle(color: ColorLayout.blue4),
+        ),
+        backgroundColor: ColorLayout.neutral5,
+      ),
       body: FutureBuilder(
         future: client.getEvent(),
         builder: ((context, snapshot) {
@@ -88,9 +94,8 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
             List<DetilEvent> event = snapshot.data as List<DetilEvent>; 
             return SafeArea(
                 child: event.isNotEmpty
-                    ? ListView.separated(
+                    ? ListView.builder(
                         itemCount: event.length,
-                        separatorBuilder: (context, index) => const Divider(),
                         itemBuilder: (context, index) {
                           return ExampleAlarmTile(
                             key: Key(event[index].id.toString()),
@@ -100,6 +105,7 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
                             ).format(context),
                             description: event[index].description!,
                             title: event[index].title!,
+                            isPatient: false,
                             showImage: event[index].proofImageUrl != "" && event[index].proofImageUrl != null,
                             alreadySendToday: event[index].doneTime?.toLocal() != null && event[index].doneTime?.toLocal().toString() != "",
                             //onPressed: () => event[index].proofImageUrl == "" ? null : DisplayPictureCaretaker(event[index].proofImageUrl!),
@@ -149,7 +155,11 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
           children: [
             FloatingActionButton(
               onPressed: () => navigateToAlarmScreen(null),
-              child: const Icon(Icons.alarm_add_rounded, size: 33),
+              backgroundColor: ColorLayout.blue4,
+              child: const Icon(
+                Icons.add_alarm_sharp, 
+                size: 33,
+              ),
             ),
           ],
         ),
@@ -205,41 +215,58 @@ class _DisplayPictureCaretakerState extends State<DisplayPictureCaretaker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
+      appBar: AppBar(
+        title: const Text('Tampilkan Hasil Kegiatan'),
+        backgroundColor: ColorLayout.blue4,
+      ),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Column(
-        children: [
-          Container(
-            height:400,
-            width:400,
-            child: Image.network(widget.proofImageUrl!),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorLayout.brBlue50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width:250,
+              child: Image.network(widget.proofImageUrl!),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              height: 50,
+              width: 250,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorLayout.blue4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: (){
+                  Navigator.pop(context, true);
+                }, 
+                child: Text('Batalkan', style: TextLayout.body16.copyWith(color: ColorLayout.neutral5)),
               ),
             ),
-            onPressed: (){
-              acceptProofImage();
-            }, 
-            child: Text('Setujui', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorLayout.brBlue50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 50,
+              width: 250,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorLayout.blue4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: (){
+                  acceptProofImage();
+                }, 
+                child: Text('Setujui', style: TextLayout.body16.copyWith(color: ColorLayout.neutral5)),
               ),
             ),
-            onPressed: (){
-              Navigator.pop(context, true);
-            }, 
-            child: Text('Batalkan', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
-          ),
-        ],
+          ],
+        )
       )
     );
   }

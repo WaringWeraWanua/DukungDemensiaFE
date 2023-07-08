@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         globals.role = response.user!.role!;
 
         await Fluttertoast.showToast(
-          msg: "Login Successful!",
+          msg: "Berhasil masuk ke akun anda",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Column(
                           children: [
-                            Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
+                            Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.blue4)),
                             SizedBox(height: 12),
                             Text('Peduli dan lindungi orang kesayangan Anda', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
                             SizedBox(height: 60),
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorLayout.brBlue75,
+                              backgroundColor: ColorLayout.blue4,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -182,9 +182,9 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: _isLoading ? null : _submitForm, 
                             child: _isLoading
                               ? CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.brBlue75),
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.blue4),
                                 )
-                              : Text('LOGIN', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
+                              : Text('MASUK', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
                           ),
                         ),
                         SizedBox(height: 32,),
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                             InkWell(
                               onTap: () => Navigator.pushReplacementNamed(context, '/register'),
                               child: 
-                                Text('Register', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75))
+                                Text('Daftar', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75))
                             ) // perlu diganti ke navigate
                           ],
                         ),

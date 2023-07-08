@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dukungan_demensia/main.dart';
+import 'layout/colors_layout.dart';
 
 class ExampleAlarmTile extends StatelessWidget {
   final String title;
@@ -10,6 +11,7 @@ class ExampleAlarmTile extends StatelessWidget {
   final void Function()? onDismissed;
   final bool showImage;
   final bool alreadySendToday;
+  final bool isPatient;
 
   const ExampleAlarmTile({
     Key? key,
@@ -21,6 +23,7 @@ class ExampleAlarmTile extends StatelessWidget {
     this.isClicked = true,
     this.showImage = false,
     this.alreadySendToday = false,
+    this.isPatient = true,
   }) : super(key: key);
 
   @override
@@ -31,7 +34,6 @@ class ExampleAlarmTile extends StatelessWidget {
           ? DismissDirection.endToStart
           : DismissDirection.none,
       background: Container(
-        color: Colors.red,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 30),
         child: const Icon(
@@ -41,14 +43,28 @@ class ExampleAlarmTile extends StatelessWidget {
         ),
       ),
       onDismissed: (_) => onDismissed?.call(),
-      child: RawMaterialButton(
-        fillColor: alreadySendToday ? Colors.grey : Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              return alreadySendToday ? ColorLayout.blue1 : ColorLayout.neutral5;
+            }
+          ),
+/*           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(
+                color: alreadySendToday ? ColorLayout.blue4 : ColorLayout.neutral5,
+              ),
+            )
+          ), */
+        ),
         onPressed: onPressed,
         child: SafeArea(
-          //height: 100,
-          //padding: const EdgeInsets.all(35),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,37 +76,41 @@ class ExampleAlarmTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w300,
+                        color: alreadySendToday ? ColorLayout.black3 : ColorLayout.blue4,
+                      ),
+                    ),
+                    Text(
                       title,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 22,
+                      style: TextStyle(
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
+                        color: alreadySendToday ? ColorLayout.black3 : ColorLayout.blue4,
                       ),
                     ),
                     Text(
                       description,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
+                        color: alreadySendToday ? ColorLayout.black3 : ColorLayout.blue4,
                       ),
                     ),
                   ],
                 ),
               ),
-              if (!isClicked || (isClicked && showImage)) const Icon(Icons.camera_alt, size: 35),
+              if ((isPatient && !alreadySendToday) || (!isPatient && showImage)) const Icon(Icons.camera_alt, size: 35, color: ColorLayout.blue4),
             ],
           ),
           ),
         ),
       ),
+      )
     );
   }
 }

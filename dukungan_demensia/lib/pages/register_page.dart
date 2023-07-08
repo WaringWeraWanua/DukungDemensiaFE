@@ -102,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.brBlue50)),
+                        Text('Dukungan Demensia', style: TextLayout.display42.copyWith(color: ColorLayout.blue4)),
                         SizedBox(height: 10),
                         Text('Peduli dan lindungi orang kesayangan Anda', style: TextLayout.body16.copyWith(color: ColorLayout.black4), textAlign: TextAlign.center,),
                         SizedBox(height: 40),
@@ -259,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 // shadow
                                 boxShadow: [
                                   BoxShadow(
-                                    color: ColorLayout.brBlue25.withOpacity(0.25),
+                                    color: ColorLayout.blue1.withOpacity(0.25),
                                     spreadRadius: 0,
                                     blurRadius: 4,
                                     offset: Offset(0, 4), // changes position of shadow
@@ -335,7 +335,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorLayout.brBlue75,
+                              backgroundColor: ColorLayout.blue4,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -343,9 +343,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: _isLoading ? null : _submitForm, 
                             child: _isLoading
                               ? CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.brBlue75),
+                                  valueColor: AlwaysStoppedAnimation<Color>(ColorLayout.blue4),
                                 )
-                              : Text('REGISTER', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
+                              : Text('DAFTAR', style: TextLayout.title18.copyWith(color: ColorLayout.neutral5)),
                           ),
                         ),
                         SizedBox(height: 24,),
@@ -355,7 +355,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             InkWell(
                               onTap: () => Navigator.pushReplacementNamed(context, '/login'),
                               child: 
-                                Text('Login', style: TextLayout.body16.copyWith(color: ColorLayout.brBlue75))
+                                Text('Masuk', style: TextLayout.body16.copyWith(color: ColorLayout.blue4))
                             ) // perlu diganti ke navigate
                           ],
                         ),

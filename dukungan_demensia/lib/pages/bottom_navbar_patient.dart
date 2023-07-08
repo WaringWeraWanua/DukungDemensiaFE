@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:dukungan_demensia/pages/patient_schedule.dart';
 import 'package:dukungan_demensia/pages/list_news.dart';
 import 'package:dukungan_demensia/components/globals.dart' as globals;
+import '../widgets/layout/colors_layout.dart';
 
 class BottomNavbarPatient extends StatefulWidget {
   const BottomNavbarPatient({super.key});
@@ -49,9 +50,9 @@ class _BottomNavbarPatientState extends State<BottomNavbarPatient> {
         onPressed: () {
           _launchPhoneCall();
         },
-        label: const Text('Call Caregiver'),
+        label: const Text('Telepon Perawat!'),
         icon: const Icon(Icons.phone),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: ColorLayout.blue4,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -65,7 +66,7 @@ class _BottomNavbarPatientState extends State<BottomNavbarPatient> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: ColorLayout.blue4,
         onTap: _onItemTapped,
       ),
     );

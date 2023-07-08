@@ -3,6 +3,7 @@
 import "package:dukungan_demensia/models/news_models.dart";
 import "package:dukungan_demensia/widgets/layout/text_layout.dart";
 import "package:flutter/material.dart";
+import '../widgets/layout/colors_layout.dart';
 
 Widget NewsTile(Article article) {
   return Container(
@@ -37,13 +38,13 @@ Widget NewsTile(Article article) {
         Container(
           padding: EdgeInsets.all(6.0),
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: ColorLayout.blue4,
             borderRadius: BorderRadius.circular(30.0)
           ),
           child: Text(article.source?.name ?? '', style: TextStyle(color: Colors.white),),
         ),
         SizedBox(height: 8.0,),
-        Text(article.title ?? '', style: TextLayout.title18)
+        Text(article.title ?? '', style: TextLayout.title18.copyWith(color: ColorLayout.blue4))
       ],
     )
   );

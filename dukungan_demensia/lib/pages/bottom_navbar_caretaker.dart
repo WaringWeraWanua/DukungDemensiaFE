@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dukungan_demensia/pages/caretaker_schedule.dart';
 import 'package:dukungan_demensia/pages/list_news.dart';
+import 'package:dukungan_demensia/pages/location_screen.dart';
+import '../widgets/layout/colors_layout.dart';
 
 class BottomNavbarCaretaker extends StatefulWidget {
   const BottomNavbarCaretaker({super.key});
@@ -15,6 +17,7 @@ class _BottomNavbarCaretakerState extends State<BottomNavbarCaretaker> {
   static const List<Widget> _widgetOptions = <Widget>[
     CaretakerAlarmScreen(),
     ListNewsPage(),
+    LoationScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -39,9 +42,13 @@ class _BottomNavbarCaretakerState extends State<BottomNavbarCaretaker> {
             icon: Icon(Icons.newspaper),
             label: 'Berita',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on),
+            label: 'Lokasi',
+          ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: ColorLayout.blue4,
         onTap: _onItemTapped,
       ),
     );

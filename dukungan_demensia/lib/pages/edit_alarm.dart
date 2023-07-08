@@ -3,6 +3,7 @@ import 'package:dukungan_demensia/models/schedule_models.dart';
 import 'package:flutter/material.dart';
 import 'package:dukungan_demensia/services/schedule_api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../widgets/layout/colors_layout.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final DetilEvent? alarmSettings;
@@ -155,7 +156,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
+                      .copyWith(color: ColorLayout.blue4),
                 ),
               ),
               TextButton(
@@ -165,22 +166,25 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
+                      .copyWith(color: ColorLayout.blue4),
                 ),
               ),
             ],
           ),
           RawMaterialButton(
             onPressed: pickTime,
-            fillColor: Colors.grey[200],
+            fillColor: ColorLayout.blue4,
             child: Container(
               margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Text(
                 selectedTime.format(context),
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent),
+                    .copyWith(color: ColorLayout.neutral5),
               ),
             ),
           ),
@@ -189,9 +193,9 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             children: [
               Text(
                 'Kegiatan',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: ColorLayout.blue4),
               ),
-              const SizedBox(width: 200),
+              const SizedBox(width: 100),
               Expanded(
                 child: TextFormField(
                   controller: title,
@@ -204,9 +208,9 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             children: [
               Text(
                 'Deskripsi',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: ColorLayout.blue4),
               ),
-              const SizedBox(width: 200),
+              const SizedBox(width: 100),
               Expanded(
                 child: TextFormField(
                   controller: description,
@@ -219,7 +223,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             children: [
               Text(
                 'Sound',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: ColorLayout.blue4),
               ),
               DropdownButton(
                 value: assetAudio,
@@ -257,7 +261,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
-                    .copyWith(color: Colors.red),
+                    .copyWith(color: ColorLayout.blue6),
               ),
             ),
           const SizedBox(),
