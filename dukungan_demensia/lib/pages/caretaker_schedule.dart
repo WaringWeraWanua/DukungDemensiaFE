@@ -222,11 +222,12 @@ class _DisplayPictureCaretakerState extends State<DisplayPictureCaretaker> {
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: SizedBox(
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 50),
             Container(
               width:250,
               child: Image.network(widget.proofImageUrl!),
