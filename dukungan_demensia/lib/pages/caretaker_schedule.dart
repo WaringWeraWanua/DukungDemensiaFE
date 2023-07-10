@@ -148,23 +148,15 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
           );
         }),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(
-              onPressed: () => navigateToAlarmScreen(null),
-              backgroundColor: ColorLayout.blue4,
-              child: const Icon(
-                Icons.add_alarm_sharp, 
-                size: 33,
-              ),
-            ),
-          ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => navigateToAlarmScreen(null),
+        backgroundColor: ColorLayout.blue4,
+        child: const Icon(
+          Icons.add_alarm_sharp, 
+          size: 45,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
