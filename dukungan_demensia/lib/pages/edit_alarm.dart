@@ -117,7 +117,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       try {
         final response = await client.postSchedule(requestBody);
         await Fluttertoast.showToast(
-          msg: "Register Successful!",
+          msg: "Berhasil mendaftarkan kegiatan!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
@@ -142,9 +142,15 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+/*       padding: EdgeInsets.only(
+         bottom: MediaQuery.of(context).viewInsets.bottom,
+         left: 30,
+         right: 30,
+         top: MediaQuery.of(context).viewInsets.bottom + 10,
+      ), */
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +158,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
-                  "Cancel",
+                  "Batalkan",
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
@@ -162,7 +168,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               TextButton(
                 onPressed: saveAlarm,
                 child: Text(
-                  "Save",
+                  "Simpan",
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!

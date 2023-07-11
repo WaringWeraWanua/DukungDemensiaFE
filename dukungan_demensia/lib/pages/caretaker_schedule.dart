@@ -62,9 +62,14 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         builder: (context) {
-          return FractionallySizedBox(
-            heightFactor: 0.6,
-            child: ExampleAlarmEditScreen(alarmSettings: settings),
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: FractionallySizedBox(
+              heightFactor: 0.8,
+              child: ExampleAlarmEditScreen(alarmSettings: settings),
+            )
           );
         });
 
@@ -80,6 +85,7 @@ class _CaretakerAlarmScreenState extends State<CaretakerAlarmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           'Selamat datang, Perawat!',
